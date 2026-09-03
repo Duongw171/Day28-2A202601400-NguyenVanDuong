@@ -13,6 +13,11 @@ x-lab-environment: &lab-environment
   # so this container path is stable on Windows, macOS and Linux.
   LAB28_DELTA_ROOT: /workspace/.lab28/delta
   FASTEMBED_CACHE_PATH: /workspace/.lab28/fastembed
+  # Anonymous HuggingFace downloads are rate-limited hard from shared egress IPs
+  # (GitHub Codespaces), which fails the fastembed model pull in the pipeline's
+  # Qdrant task. A read-scoped token lifts the limit. Passed from the shell, so
+  # it is never written to a file or committed; empty when unset.
+  HF_TOKEN: ${HF_TOKEN:-}
   OTEL_EXPORTER_OTLP_ENDPOINT: http://otel-collector:4317
   LAB28_OTEL_ENABLED: "true"
 
